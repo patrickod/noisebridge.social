@@ -1,0 +1,7 @@
+---
+- name: mastodon
+  hosts: mastodon
+  remote_user: root
+  roles:
+    - security
+    - docker

@@ -1,0 +1,61 @@
+- name: install prerequisites
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - python-software-properties
+  apt:
+    package: "{{ item }}"
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+  tags:
+    - apt
+    - docker
+
+- name: deploy Docker public PGP key
+  copy:
+    src: docker.pub
+    dest: /tmp/docker.pub
+  tags:
+    - docker
+
+- name: add the Docker apt-key
+  apt_key:
+    state: present
+    file: /tmp/docker.pub
+  tags:
+    - apt
+    - docker
+
+- name: add Docker apt repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ansible_lsb.codename}} stable"
+    state: present
+    update_cache: yes
+  tags:
+    - apt
+    - docker
+
+- name: install Docker-CE
+  apt:
+    package: docker-ce=17.03.1~ce-0~debian-jessie
+    state: installed
+    update_cache: yes
+    cache_valid_time: 3600
+  tags:
+    - apt
+    - docker
+
+- name: reload systemd
+  command: systemctl daemon-reload
+  tags:
+    - docker
+
+- name: enable docker
+  service:
+    name: docker
+    state: started
+    enabled: yes 
+  tags:
+    - docker
