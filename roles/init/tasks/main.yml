@@ -1,0 +1,6 @@
+---
+- name: add patrickod user
+  user:
+    name: patrickod
+    state: present
+    shell: /bin/bash

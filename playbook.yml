@@ -3,11 +3,14 @@
   hosts: mastodon
   remote_user: root
   roles:
+    - init
     - security
     - docker
     - mastodon
     - nginx
+    - postfix
     - certbot
   vars:
-    mastodon:
-      version: v1.2.2
+    postfix:
+      destination_domains:
+        - noisebridge.social

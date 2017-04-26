@@ -16,7 +16,7 @@
     - certbot
 
 - name: provision certificates
-  command: "certbot certonly --agree-tos -n -m hostmaster@{{ item.key }} --webroot -w /srv/mastodon/live/public -d {{ item.value|join(' -d ') }} --expand"
+  command: "certbot certonly --agree-tos -n -m hostmaster@{{ item.key }} --webroot -w /usr/share/nginx/html/ -d {{ item.value|join(' -d ') }} --expand"
   with_items:
     - key: noisebridge.social
       value:

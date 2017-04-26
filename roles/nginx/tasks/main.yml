@@ -1,11 +1,18 @@
 ---
+- name: determine certificate status
+  stat: path=/etc/letsencrypt/live/noisebridge.social
+  register: certificate
+  tags:
+    - nginx
+
 - name: install nginx configuration
   template:
     src: nginx.conf
     dest: /etc/nginx/sites-enabled/mastodon.conf
   tags:
     - nginx
-
+  notify:
+    - reload nginx
 
 - name: enable and start nginx
   service:
