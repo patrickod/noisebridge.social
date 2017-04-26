@@ -1,7 +1,3 @@
-provider "scaleway" {
-  region = "${var.region}"
-}
-
 resource "scaleway_security_group" "http" {
   name        = "http"
   description = "allow HTTP(s) and SSH"
