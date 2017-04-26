@@ -1,2 +1,3 @@
 group_vars/all filter=git-crypt diff=git-crypt
 terraform/variables.tf filter=git-crypt diff=git-crypt
+terraform/state_persistence.tf filter=git-crypt diff=git-crypt
