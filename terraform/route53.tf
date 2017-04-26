@@ -26,6 +26,15 @@ resource "aws_route53_record" "apex" {
   records = ["${scaleway_ip.mastodon.ip}"]
 }
 
+resource "aws_route53_record" "apex_v6" {
+  zone_id = "${aws_route53_zone.noisebridge_social.id}"
+  name = "noisebridge.social"
+  type = "AAAA"
+  ttl = "300"
+  // TODO Figure out some way of automating this.
+  records = ["2001:0bc8:4700:2300:0000:0000:0013:0f09"]
+}
+
 resource "aws_route53_record" "mx" {
   zone_id = "${aws_route53_zone.noisebridge_social.id}"
   name = "noisebridge.social"

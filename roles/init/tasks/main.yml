@@ -3,4 +3,8 @@
   user:
     name: patrickod
     state: present
+    groups: sudo
     shell: /bin/bash
+    append: true
+  tags:
+    - init
