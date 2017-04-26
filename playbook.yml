@@ -5,3 +5,9 @@
   roles:
     - security
     - docker
+    - mastodon
+    - nginx
+    - certbot
+  vars:
+    mastodon:
+      version: v1.2.2

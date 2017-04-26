@@ -1,0 +1,53 @@
+- name: install nginx
+  apt:
+    package: nginx
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: add mostodon group
+  group:
+    name: mastodon
+    state: present
+    system: yes
+  tags:
+    - mastodon
+
+- name: add mastodon user
+  user:
+    name: mastodon
+    state: present
+    groups: mastodon,docker
+    home: /srv/mastodon
+  tags:
+    - mastodon
+
+- name: clone mastodon
+  become: mastodon
+  become_method: sudo
+  git:
+    dest: "/srv/mastodon/mastodon-{{ mastodon.version }}"
+    repo: https://github.com/tootsuite/mastodon.git
+    version: "{{ mastodon.version }}"
+  tags:
+    - mastodon
+
+- name: deploy .env.production file
+  template:
+    src: .env.production 
+    dest: "/srv/mastodon/mastodon-{{ mastodon.version }}/.env.production"
+    owner: mastodon
+    group: mastodon
+  tags:
+    - mastodon
+
+- name: link to latest
+  file:
+    src: "/srv/mastodon/mastodon-{{ mastodon.version }}"
+    dest: "/srv/mastodon/live"
+    state: link
+    owner: mastodon
+    group: mastodon
+  tags:
+    - mastodon
+

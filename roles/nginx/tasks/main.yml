@@ -1,0 +1,16 @@
+---
+- name: install nginx configuration
+  template:
+    src: nginx.conf
+    dest: /etc/nginx/sites-enabled/mastodon.conf
+  tags:
+    - nginx
+
+
+- name: enable and start nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  tags:
+    - nginx

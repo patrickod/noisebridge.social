@@ -1,0 +1,26 @@
+---
+
+- name: backports
+  apt_repository:
+    repo: "deb http://ftp.debian.org/debian {{ ansible_lsb.codename }}-backports main"
+    update_cache: yes
+    state: present
+  tags:
+    - certbot
+
+- name: install certbot
+  apt:
+    package: certbot
+    default_release: "{{ ansible_lsb.codename }}-backports"
+  tags:
+    - certbot
+
+- name: provision certificates
+  command: "certbot certonly --agree-tos -n -m hostmaster@{{ item.key }} --webroot -w /srv/mastodon/live/public -d {{ item.value|join(' -d ') }} --expand"
+  with_items:
+    - key: noisebridge.social
+      value:
+        - noisebridge.social
+        - www.noisebridge.social
+  tags:
+    - certbot

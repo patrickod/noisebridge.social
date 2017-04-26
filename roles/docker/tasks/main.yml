@@ -59,3 +59,11 @@
     enabled: yes 
   tags:
     - docker
+
+- name: install docker-compose
+  copy:
+    src: docker-compose
+    dest: /usr/bin/docker-compose
+    mode: 0755
+  tags:
+    - docker
