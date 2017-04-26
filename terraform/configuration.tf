@@ -1,3 +1,15 @@
+terraform {
+  backend "s3" {
+    bucket = "patrickod-terraform"
+    key = "noisebridge.social/terraform.tfstate"
+    encrypt = "true"
+    region = "us-west-1"
+    kms_key_id = "${var.terraform_kms_key_id}"
+    profile = "personal"
+    role_arn = "${var.terraform_role_arn}"
+  }
+}
+
 provider "scaleway" {
   region = "${var.region}"
 }
