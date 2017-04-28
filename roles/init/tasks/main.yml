@@ -3,8 +3,17 @@
   user:
     name: patrickod
     state: present
-    groups: sudo
+    groups: sudo,docker
     shell: /bin/bash
     append: true
+  tags:
+    - init
+
+- name: allow passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^%sudo'
+    state: present
+    line: "%sudo ALL=(ALL) NOPASSWD: ALL"
   tags:
     - init
