@@ -26,3 +26,11 @@
         - www.noisebridge.social
   tags:
     - certbot
+
+- name: automatically renew certificates
+  cron:  
+    name: "renew certificates"
+    job: 'certbot renew --pre-hook "service nginx stop" --post-hook "service nginx start"'
+    special_time: monthly
+  tags:
+    - certbot
