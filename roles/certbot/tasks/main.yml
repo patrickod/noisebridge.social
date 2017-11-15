@@ -26,3 +26,12 @@
         - www.noisebridge.social
   tags:
     - certbot
+
+- name: establish cron for renew
+  cron:
+    name: "renew certbot"
+    minute: 0
+    hour: 0
+    job: "certbot renew --post-hook 'service nginx reload'"
+  tags:
+    - certbot
